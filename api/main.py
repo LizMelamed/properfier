@@ -94,7 +94,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://<your-frontend-project>.vercel.app"
+        "https://properfier-l61106wba-netasilams-projects.vercel.app"
     ],
     allow_methods=["*"],
     allow_headers=["*"],
