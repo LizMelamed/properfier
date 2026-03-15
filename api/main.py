@@ -93,10 +93,6 @@ def recommend(
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=[
-    #     "http://localhost:5173",
-    #     "https://properfier-l61106wba-netasilams-projects.vercel.app"
-    # ],
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
