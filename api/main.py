@@ -15,13 +15,21 @@ def haversine(lat1, lon1, lat2, lon2):
 
 app = FastAPI(title="Property Recommendation API")
 
-csv_path = os.path.join(os.path.dirname(__file__), 'zoopla_recommendations.csv')
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+csv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'zoopla_recommendations.csv')
 
 @app.get("/")
 def health():
     return {"status": "ok"}
 
-@app.get("/recommend")
+@app.get("/api/recommend")
 def recommend(
     budget: float = Query(..., gt=0),
     region: str | None = None,
@@ -90,12 +98,5 @@ def recommend(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 handler = Mangum(app)
