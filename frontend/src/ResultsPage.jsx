@@ -41,7 +41,8 @@ export default function ResultsPage({ budget, area, onBack }) {
         if (area) params.append('region', area);
         params.append('top_k', '10');
 
-        const response = await fetch(`http://localhost:8000/recommend?${params}`);
+        // const response = await fetch(`/api/recommend?${params}`);
+        const response = await fetch('https://properfier-7bq3nx5e2-netasilams-projects.vercel.app/api/recommend?' + params);
         if (!response.ok) {
           throw new Error('Failed to fetch recommendations');
         }
