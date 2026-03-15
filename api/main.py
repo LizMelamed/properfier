@@ -24,8 +24,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-url = os.environ["https://jqujvgafhosszfotfmef.supabase.co"]
-key = os.environ["sb_publishable_mz5QficVF7R2NnFUGBHKow_EqddYjPC"]
+url = os.environ["SUPABASE_URL"]
+key = os.environ["SUPABASE_KEY"]
 supabase = create_client(url, key)
 response = supabase.table("zoopla_recommendations").select("*").execute()
 df = pd.DataFrame(response.data)
