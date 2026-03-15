@@ -31,13 +31,22 @@ class handler(BaseHTTPRequestHandler):
 
             query = supabase.table("zoopla_recommendations")\
                 .select("city, price_cleaned, predicted_roi, lat, long")\
-                .lte("price_cleaned", int(budget))
+                .lte("price_cleaned", int(budget))\
+                .limit(10000)
 
             if region:
                 query = query.ilike("city", f"%{region}%")
 
             response = query.execute()
             df = pd.DataFrame(response.data)
+
+            if df.empty:
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps([]).encode())
+                return
 
             grouped = df.groupby('city').agg({
                 'price_cleaned': 'mean',
@@ -83,5 +92,6 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             self.send_response(500)
             self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             self.wfile.write(json.dumps({"error": str(e)}).encode())
