@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum 
 import pandas as pd
 import os
 import numpy as np
@@ -14,7 +15,6 @@ def haversine(lat1, lon1, lat2, lon2):
 
 app = FastAPI(title="Property Recommendation API")
 
-# csv_path = os.path.join(os.path.dirname(__file__), '..', 'zoopla_recommendations.csv')
 csv_path = os.path.join(os.path.dirname(__file__), 'zoopla_recommendations.csv')
 
 @app.get("/")
@@ -90,12 +90,16 @@ def recommend(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://properfier-l61106wba-netasilams-projects.vercel.app"
-    ],
+    # allow_origins=[
+    #     "http://localhost:5173",
+    #     "https://properfier-l61106wba-netasilams-projects.vercel.app"
+    # ],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+handler = Mangum(app)
