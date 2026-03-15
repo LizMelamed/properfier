@@ -14,7 +14,8 @@ def haversine(lat1, lon1, lat2, lon2):
 
 app = FastAPI(title="Property Recommendation API")
 
-csv_path = os.path.join(os.path.dirname(__file__), '..', 'zoopla_recommendations.csv')
+# csv_path = os.path.join(os.path.dirname(__file__), '..', 'zoopla_recommendations.csv')
+csv_path = os.path.join(os.path.dirname(__file__), 'zoopla_recommendations.csv')
 
 @app.get("/")
 def health():
