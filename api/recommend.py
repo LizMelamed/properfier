@@ -31,7 +31,7 @@ class handler(BaseHTTPRequestHandler):
 
             query = supabase.table("zoopla_recommendations")\
                 .select("city, price_cleaned, predicted_roi, lat, long")\
-                .lte("price_cleaned", budget)
+                .lte("price_cleaned", int(budget))
 
             if region:
                 query = query.ilike("city", f"%{region}%")
@@ -85,4 +85,3 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({"error": str(e)}).encode())
-            
