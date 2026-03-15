@@ -31,8 +31,7 @@ class handler(BaseHTTPRequestHandler):
 
             query = supabase.table("zoopla_recommendations")\
                 .select("city, price_cleaned, predicted_roi, lat, long")\
-                .lte("price_cleaned", int(budget))\
-                .limit(10000)
+                .limit(100)
 
             if region:
                 query = query.ilike("city", f"%{region}%")
