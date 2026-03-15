@@ -1,6 +1,11 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/recommend.py": {
+      "runtime": "@vercel/python"
+    }
+  },
   "rewrites": [
     { "source": "/api/recommend", "destination": "api/recommend.py" },
     { "source": "/(.*)", "destination": "/index.html" }
