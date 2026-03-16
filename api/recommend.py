@@ -104,35 +104,50 @@ def haversine(lat1, lon1, lat2, lon2):
 #             self.end_headers()
 #             self.wfile.write(json.dumps({"error": str(e)}).encode())
 
+from http.server import BaseHTTPRequestHandler
+import json
+import urllib.request
+import os
+
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
-            supabase_url = os.environ["SUPABASE_URL"]
-            supabase_key = os.environ["SUPABASE_KEY"]
+            supabase_url = os.environ.get("SUPABASE_URL", "NOT FOUND")
+            supabase_key = os.environ.get("SUPABASE_KEY", "NOT FOUND")
 
-            req_url = (
-                f"{supabase_url}/rest/v1/zoopla_recommendations"
-                f"?select=city,price_cleaned"
-                f"&limit=5"
-            )
+            debug = {
+                "supabase_url": supabase_url,
+                "key_length": len(supabase_key),
+                "key_prefix": supabase_key[:10] if len(supabase_key) > 10 else supabase_key
+            }
 
+            req_url = f"{supabase_url}/rest/v1/zoopla_recommendations?select=city&limit=3"
             req = urllib.request.Request(req_url, headers={
                 "apikey": supabase_key,
                 "Authorization": f"Bearer {supabase_key}"
             })
 
             with urllib.request.urlopen(req) as res:
+                status = res.status
                 data = json.loads(res.read().decode())
 
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write(json.dumps(data).encode())
+            self.wfile.write(json.dumps({
+                "debug": debug,
+                "status": status,
+                "data": data
+            }).encode())
 
         except Exception as e:
             self.send_response(500)
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write(json.dumps({"error": str(e)}).encode())
+            self.wfile.write(json.dumps({
+                "error": str(e),
+                "supabase_url": os.environ.get("SUPABASE_URL", "NOT FOUND"),
+                "key_found": "SUPABASE_KEY" in os.environ
+            }).encode())
