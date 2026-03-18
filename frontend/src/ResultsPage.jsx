@@ -103,7 +103,7 @@ export default function ResultsPage({ budget, area, onBack }) {
           </button>
 
           <h1 className="text-3xl font-bold mb-2 text-yellow-400">
-            Your budget - up to {budget || "—"}£
+            Your budget - up to £{budget || "—"}
           </h1>
 
           {area && <p className="text-white/70 mb-8">Filtered by area: {area}</p>}
@@ -137,9 +137,9 @@ export default function ResultsPage({ budget, area, onBack }) {
 
                         <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm text-white/80">
                           <span>Avg Price:</span>
-                          <span>{Math.round(r.avg_price).toLocaleString()}£</span>  
+                          <span>£{Math.round(r.avg_price).toLocaleString()}</span>  
                           <span>Avg Revenue:</span>
-                          <span>{Math.round(r.avg_revenue).toLocaleString()}£</span>                                              
+                          <span>£{Math.round(r.avg_revenue).toLocaleString()}</span>                                              
                           <span>Predicted ROI:</span>
                           <span>{(r.predicted_ROI * 100).toFixed(2)}%</span>
                         </div>
@@ -197,7 +197,7 @@ export default function ResultsPage({ budget, area, onBack }) {
                                           (dataMin) => Math.min(dataMin, r.avg_price),
                                           (dataMax) => Math.max(dataMax, r.avg_price)
                                         ]}
-                                        tickFormatter={(v) => `${Math.round(v).toLocaleString()}£`}
+                                        tickFormatter={(v) => `£${Math.round(v).toLocaleString()}`}
                                       />
                                       <YAxis
                                         domain={["auto", "auto"]}
@@ -205,7 +205,7 @@ export default function ResultsPage({ budget, area, onBack }) {
                                       />
                                       <Tooltip
                                         formatter={(val) => [val, 'count']}
-                                        labelFormatter={(label) => `${Math.round(label).toLocaleString()}£`}
+                                        labelFormatter={(label) => `£${Math.round(label).toLocaleString()}`}
                                       />
                                       {/** mark area mean with a vertical line */}
                                       <ReferenceLine

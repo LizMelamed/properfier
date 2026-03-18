@@ -41,7 +41,7 @@ export default function App() {
             <div className="bg-white rounded-xl p-4 flex flex-col sm:flex-row gap-3">
               <input
                 type="number"
-                placeholder="Budget (70,000£)"
+                placeholder="Budget (in GBP, e.g., £70,000)"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
