@@ -48,7 +48,7 @@ export default function App() {
               />
               <input
                 type="text"
-                placeholder="Optional Area (North West)"
+                placeholder="Optional Area (e.g., London)"
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
                 className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
