@@ -1,11 +1,11 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-export default function MiniMapLeaflet({ lat, lng }) {
+export default function MiniMapLeaflet({ lat, lng, className = "" }) {
   if (!lat || !lng) return null;
 
   return (
-    <div className="map-square">
+    <div className={className}>
       <MapContainer
         center={[lat, lng]}
         zoom={13}
